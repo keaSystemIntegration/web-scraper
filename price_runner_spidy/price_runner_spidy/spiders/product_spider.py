@@ -37,3 +37,4 @@ class PriceRunnerSpider(scrapy.Spider):
             product_dict["sub_title"] = ""
             print(product_dict)
             print("---------------------------------")
+            # product_dir needs to insert product to sqlite file

@@ -18,16 +18,18 @@ def menu_item_list():
 class CategorySpider(scrapy.Spider):
     name = "category"
     start_urls = menu_item_list()
+    result = []
 
     def parse(self, response):
-        urls = UrlData()
-        urls["urls"] = []
+        urls = []
         sub_categories = response.css(category_url_class)
         for sub_category in sub_categories:
             if "?attr_" not in sub_category.attrib["href"]:
                 break
-            urls["urls"].append(entry_url + sub_category.attrib["href"])
-        yield urls
+            self.result.append(entry_url + sub_category.attrib["href"])
+            yield {"url": entry_url + sub_category.attrib["href"]}
+            # the url result needs to be used by product_spider
+
 
 
 class UrlData(Item):
