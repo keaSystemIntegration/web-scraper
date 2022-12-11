@@ -32,5 +32,3 @@ class CategorySpider(scrapy.Spider):
 
 
 
-class UrlData(Item):
-    urls = scrapy.Field()

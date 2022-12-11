@@ -1,5 +1,9 @@
 import requests
 import scrapy
+from twisted.internet import reactor, defer
+from twisted.trial import runner
+
+from price_runner_spidy.price_runner_spidy.spiders.category_spider import CategorySpider
 
 product_component_name = 'div.pr-1k8dg1g'
 sub_category_component_class_name = "div.i54RWUrpDG"
@@ -8,15 +12,10 @@ entry_url = "https://www.pricerunner.com"
 
 class PriceRunnerSpider(scrapy.Spider):
     name = "products"
-    # start_urls = ["https://www.pricerunner.com/cl/165/Game-Controllers?attr_100003493=100014244"]
-
-    def __int__(self, *args, **kwargs):
-        super(PriceRunnerSpider, self).__init__(*args, **kwargs)
-        self.start_urls = kwargs.get('start_urls').split(',')
+    start_urls = []
 
     def parse(self, response):
         product_components = response.css(product_component_name)
-
         for product_component in product_components:
             if not product_component.css("a"):
                 break
@@ -35,6 +34,4 @@ class PriceRunnerSpider(scrapy.Spider):
             except IndexError:
                 product_dict["overall_rank"] = 0
             product_dict["sub_title"] = ""
-            print(product_dict)
-            print("---------------------------------")
-            # product_dir needs to insert product to sqlite file
+            yield product_dict
