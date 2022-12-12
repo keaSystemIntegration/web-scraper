@@ -11,7 +11,7 @@ from itemadapter import ItemAdapter
 
 class PriceRunnerSpidyPipeline:
 
-    def __int__(self):
+    def __init__(self):
         print("jelly bean")
         self.connection = sqlite3.connect("products.db")
         self.cur = self.connection.cursor()
@@ -21,7 +21,7 @@ class PriceRunnerSpidyPipeline:
         self.cur.execute("""CREATE TABLE IF NOT EXISTS products (
             id TEXT PRIMARY KEY NOT NULL,
             name TEXT NOT NULL,
-            sub_title TEXT NOT NULL, NULL
+            sub_title TEXT NOT NULL,
             description TEXT NOT NULL,
             category TEXT NOT NULL,
             sub_category TEXT NOT NULL,
