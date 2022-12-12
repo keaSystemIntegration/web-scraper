@@ -12,12 +12,13 @@ from itemadapter import ItemAdapter
 class PriceRunnerSpidyPipeline:
 
     def __int__(self):
+        print("jelly bean")
         self.connection = sqlite3.connect("products.db")
-        self.curser = self.connection.cursor()
+        self.cur = self.connection.cursor()
         self.create_table()
 
     def create_table(self):
-        self.curser.execute("""CREATE TABLE IF NOT EXIST products (
+        self.cur.execute("""CREATE TABLE IF NOT EXISTS products (
             id TEXT PRIMARY KEY NOT NULL,
             name TEXT NOT NULL,
             sub_title TEXT NOT NULL, NULL
@@ -31,22 +32,11 @@ class PriceRunnerSpidyPipeline:
         ;""")
 
     def process_item(self, item, spider):
-        print("//////////////////////")
-        print(item)
-        print("//////////////////////")
-        self.curser.execute("""INSERT OR IGNORE INTO products VALUES (
-            ?,?,?,?,?,?,?,?,?,?
-        );
-        """,
-                            item["id"],
-                            item["name"],
-                            item["sub_title"],
-                            item["description"],
-                            item["category"],
-                            item["sub_category"],
-                            item["price"],
-                            item["link"],
-                            item["overall_rank"],
-                            )
+        self.cur.execute("""INSERT OR IGNORE INTO products VALUES (
+            ?,?,?,?,?,?,?,?,?
+        )""",
+                         (item["id"], item["name"], item["sub_title"],
+                         item["description"], item["category"], item["sub_category"],
+                         item["price"], item["link"], item["overall_rank"]), )
         self.connection.commit()
         return item
