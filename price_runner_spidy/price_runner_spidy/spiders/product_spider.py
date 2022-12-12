@@ -32,7 +32,7 @@ class PriceRunnerSpider(scrapy.Spider):
             except IndexError:
                 product_item["description"] = ""
             product_item["id"] = entry_url + product_component.css("a").attrib["href"]
-            product_item["url"] = entry_url + product_component.css("a").attrib["href"]
+            product_item["link"] = entry_url + product_component.css("a").attrib["href"]
             product_item["price"] = product_component.css("span.pr-be5x0o::text").extract()[0]
             try:
                 product_item["overall_rank"] = product_component.css("p.pr-1ob9nd8::text").extract()[0]
@@ -49,7 +49,7 @@ class ProductItem(Item):
     sub_category = Field()
     name = Field()
     description = Field()
-    url = Field()
+    link = Field()
     price = Field()
     overall_rank = Field()
     sub_title = Field()

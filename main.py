@@ -12,10 +12,10 @@ runner = CrawlerRunner(settings)
 
 @defer.inlineCallbacks
 def crawl():
-    # yield runner.crawl(CategorySpider)
-    # yield runner.crawl(PriceRunnerSpider, start_urls=CategorySpider().result)
-    yield runner.crawl(PriceRunnerSpider, start_urls=[
-    "https://www.pricerunner.com/cl/94/Headphones?attr_100003567=100014541"])
+    yield runner.crawl(CategorySpider)
+    yield runner.crawl(PriceRunnerSpider, start_urls=CategorySpider().result)
+    # yield runner.crawl(PriceRunnerSpider, start_urls=[
+    # "https://www.pricerunner.com/cl/94/Headphones?attr_100003567=100014541"])
     reactor.stop()
 
 
