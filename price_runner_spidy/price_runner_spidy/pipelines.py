@@ -1,4 +1,3 @@
-
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -7,6 +6,7 @@
 
 # useful for handling different item types with a single interface
 import sqlite3
+from itemadapter import ItemAdapter
 
 
 class PriceRunnerSpidyPipeline:
@@ -18,14 +18,14 @@ class PriceRunnerSpidyPipeline:
 
     def create_table(self):
         self.curser.execute("""CREATE TABLE IF NOT EXIST products (
-            id TEXT PRIMARY KEY NOT NULL, 
-            name TEXT NOT NULL, 
-            sub_title TEXT NOT NULL, 
-            description TEXT NOT NULL, 
-            category TEXT NOT NULL, 
-            sub_category TEXT NOT NULL, 
-            price REAL NOT NULL, 
-            link TEXT NOT NULL, 
+            id TEXT PRIMARY KEY NOT NULL,
+            name TEXT NOT NULL,
+            sub_title TEXT NOT NULL, NULL
+            description TEXT NOT NULL,
+            category TEXT NOT NULL,
+            sub_category TEXT NOT NULL,
+            price REAL NOT NULL,
+            link TEXT NOT NULL,
             overall_rank REAL NOT NULL
              )
         ;""")
@@ -34,8 +34,19 @@ class PriceRunnerSpidyPipeline:
         print("//////////////////////")
         print(item)
         print("//////////////////////")
-        # self.curser.execute("""INSERT OR IGNORE INTO products VALUES (
-        #     ?,?,?,?,?,?,?,?,?
-        # );
-        # """)
+        self.curser.execute("""INSERT OR IGNORE INTO products VALUES (
+            ?,?,?,?,?,?,?,?,?,?
+        );
+        """,
+                            item["id"],
+                            item["name"],
+                            item["sub_title"],
+                            item["description"],
+                            item["category"],
+                            item["sub_category"],
+                            item["price"],
+                            item["link"],
+                            item["overall_rank"],
+                            )
+        self.connection.commit()
         return item

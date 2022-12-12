@@ -8,14 +8,13 @@ from price_runner_spidy.price_runner_spidy.spiders.product_spider import PriceRu
 
 configure_logging()
 settings = get_project_settings()
-# configure_logging(settings)
 runner = CrawlerRunner(settings)
 
 @defer.inlineCallbacks
 def crawl():
     yield runner.crawl(CategorySpider)
     yield runner.crawl(PriceRunnerSpider, start_urls=CategorySpider().result)
-    # yield runner.crawl(PriceRunnerSpider, start_urls=CategorySpider().result)
+    #yield runner.crawl(PriceRunnerSpider, start_urls=["https://www.pricerunner.com/cl/94/Headphones?attr_100003567=100014541"])
     reactor.stop()
 
 
