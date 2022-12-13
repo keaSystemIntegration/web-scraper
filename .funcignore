@@ -1,0 +1,9 @@
+.git*
+.vscode
+local.settings.json
+test
+.venv
+.idea
+poetry.lock
+products.db
+pyproject.toml

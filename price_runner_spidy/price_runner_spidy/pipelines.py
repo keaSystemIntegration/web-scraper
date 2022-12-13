@@ -18,16 +18,16 @@ class PriceRunnerSpidyPipeline:
         self.create_table()
 
     def create_table(self):
-        self.cur.execute("""CREATE TABLE IF NOT EXISTS products (
-            id TEXT PRIMARY KEY NOT NULL,
-            name TEXT NOT NULL,
-            sub_title TEXT NOT NULL,
-            description TEXT NOT NULL,
-            category TEXT NOT NULL,
+        self.cur.execute("""CREATE TABLE IF NOT EXISTS Products (
+            product_id TEXT PRIMARY KEY NOT NULL,
+            product_name TEXT NOT NULL,
+            product_sub_title TEXT NOT NULL,
+            product_description TEXT NOT NULL,
+            main_category TEXT NOT NULL,
             sub_category TEXT NOT NULL,
             price REAL NOT NULL,
             link TEXT NOT NULL,
-            overall_rank REAL NOT NULL
+            overall_rating REAL NOT NULL
              )
         ;""")
 
@@ -35,8 +35,8 @@ class PriceRunnerSpidyPipeline:
         self.cur.execute("""INSERT OR IGNORE INTO products VALUES (
             ?,?,?,?,?,?,?,?,?
         )""",
-                         (item["id"], item["name"], item["sub_title"],
-                         item["description"], item["category"], item["sub_category"],
-                         item["price"], item["link"], item["overall_rank"]), )
+                         (item["product_id"], item["product_name"], item["product_sub_title"],
+                          item["product_description"], item["main_category"], item["sub_category"],
+                          item["price"], item["link"], item["overall_rating"]), )
         self.connection.commit()
         return item

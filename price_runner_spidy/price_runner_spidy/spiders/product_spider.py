@@ -24,32 +24,32 @@ class PriceRunnerSpider(scrapy.Spider):
             if not product_component.css("a"):
                 break
             product_dict = dict()
-            product_item["category"] = response.css("a.EWsqM2HIwb").css("span::text").extract()[-1]
+            product_item["main_category"] = response.css("a.EWsqM2HIwb").css("span::text").extract()[-1]
             product_item["sub_category"] = response.css("h1.pr-lilhn6::text").extract()[0]
-            product_item["name"] = product_component.css("h3::text").extract()[0]
+            product_item["product_name"] = product_component.css("h3::text").extract()[0]
             try:
-                product_item["description"] = product_component.css("p.pr-13b83wt::text").extract()[0]
+                product_item["product_description"] = product_component.css("p.pr-13b83wt::text").extract()[0]
             except IndexError:
-                product_item["description"] = ""
-            product_item["id"] = entry_url + product_component.css("a").attrib["href"]
+                product_item["product_description"] = ""
+            product_item["product_id"] = entry_url + product_component.css("a").attrib["href"]
             product_item["link"] = entry_url + product_component.css("a").attrib["href"]
-            product_item["price"] = product_component.css("span.pr-be5x0o::text").extract()[0]
+            product_item["price"] = float((product_component.css("span.pr-be5x0o::text").extract()[0])[1:].replace(",", ""))
             try:
-                product_item["overall_rank"] = product_component.css("p.pr-1ob9nd8::text").extract()[0]
+                product_item["overall_rating"] = product_component.css("p.pr-1ob9nd8::text").extract()[0]
             except IndexError:
-                product_item["overall_rank"] = 0
-            product_item["sub_title"] = ""
+                product_item["overall_rating"] = 0
+            product_item["product_sub_title"] = ""
 
             yield product_item
 
 
 class ProductItem(Item):
-    id = Field()
-    category = Field()
+    product_id = Field()
+    main_category = Field()
     sub_category = Field()
-    name = Field()
-    description = Field()
+    product_name = Field()
+    product_description = Field()
     link = Field()
     price = Field()
-    overall_rank = Field()
-    sub_title = Field()
+    overall_rating = Field()
+    product_sub_title = Field()
